@@ -1,13 +1,12 @@
 <template>
-  <div class="home">
-    HOME
-  </div>
+    <div class="home">
+        <router-link to="/map">Go to the Map</router-link>
+    </div>
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
+import { Options, Vue } from "vue-class-component";
 
-@Options({
-})
+@Options({})
 export default class Home extends Vue {}
 </script>

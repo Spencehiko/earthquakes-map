@@ -7,38 +7,44 @@
 <script lang="ts">
 import { Vue } from "vue-class-component";
 import Mapbox from "mapbox-gl";
-import { useCookies, globalCookiesConfig } from "vue3-cookies";
-
-globalCookiesConfig({
-    expireTimes: "60d",
-    path: "/",
-    domain: "",
-    secure: true,
-    sameSite: "None",
-});
+import { useStore } from "vuex";
 
 export default class MapData extends Vue {
     private accessToken =
         "pk.eyJ1Ijoic3BlbmNlaGlrbyIsImEiOiJja3oycHNqbTYwMGEyMnpuMGg5M2Jpbmh3In0.eZG6gxWY-T2eEn_7CqEjNA";
     private map!: any;
     private earthquakes!: any;
-    private cookies = useCookies().cookies;
+    private store = useStore();
 
     async mounted() {
+        const differenceInMinutes =
+            (new Date().getTime() -
+                new Date(this.store.getters.lastUpdate).getTime()) /
+            (60 * 1000);
+        if (differenceInMinutes > 60) {
+            await fetch(
+                "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&minmagnitude=2.5&limit=6000"
+            )
+                .then((response) => response.json())
+                .then((data) => (this.earthquakes = data));
+            this.store.commit("updateEarthquakes", this.earthquakes);
+        } else {
+            this.earthquakes = this.store.getters.earthquakes;
+        }
         Mapbox.accessToken = this.accessToken;
 
         this.map = new Mapbox.Map({
             container: "mapContainer",
             style: "mapbox://styles/mapbox/dark-v10",
-            center: [103.811279, 1.345399],
-            zoom: 2,
+            center: [41.015137, 28.97953],
+            zoom: 1,
         });
         this.map.on("load", () => {
             // Add a geojson point source.
             // Heatmap layers also work with a vector tile source.
             this.map.addSource("earthquakes", {
                 type: "geojson",
-                data: "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&minmagnitude=2.5&limit=5000",
+                data: this.earthquakes,
             });
 
             this.map.addLayer(
@@ -183,28 +189,13 @@ export default class MapData extends Vue {
             );
         });
     }
-    getCookie(cookieName:string) {
-        let name = cookieName + "=";
-        let decodedCookie = decodeURIComponent(document.cookie);
-        let ca = decodedCookie.split(";");
-        for (let i = 0; i < ca.length; i++) {
-            let c = ca[i];
-            while (c.charAt(0) == " ") {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
-    }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 .mapContainer {
-    height: 70vh;
+    height: 100vh;
     width: 100%;
     margin: 0;
     padding: 0;
