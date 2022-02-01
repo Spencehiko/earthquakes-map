@@ -54,7 +54,7 @@ export default class SideMenu extends Vue {
 .sideMenu {
     h3 {
         padding-bottom: 10px;
-        border-bottom: 2px double #78b3d2;
+        border-bottom: 4px solid #78b3d2;
     }
     .earthquakes {
         padding: 10px;
