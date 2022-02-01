@@ -1,4 +1,4 @@
-# earthquakes-map
+# Latest 6000 Earthquakes Map
 
 Hi! This is a **Vue.js + Vuex + TypeScript + MapBox** implementation. In this app you can **examine the latest 6000 earthquakes on the map**. And the fun thing is they are stored in the browser as cookies, and not disappearing after the refresh! Additionally you can click on the earthquake cards on the left sidebar to pan into it.
 
