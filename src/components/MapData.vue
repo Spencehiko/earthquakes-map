@@ -5,9 +5,21 @@
 </template>
 
 <script lang="ts">
-import { Vue } from "vue-class-component";
+import { Vue, Options } from "vue-class-component";
 import Mapbox from "mapbox-gl";
 import { useStore } from "vuex";
+
+@Options({
+  // Define component options
+  watch: {
+    mapCenter: {
+      handler(newVal) {
+        this.map.panTo(newVal, { duration: 1000 });
+      },
+      deep: true
+    }
+  }
+})
 
 export default class MapData extends Vue {
     private accessToken =
@@ -15,6 +27,9 @@ export default class MapData extends Vue {
     private map!: any;
     private earthquakes!: any;
     private store = useStore();
+    get mapCenter() {
+        return this.store.getters.mapCenter;
+    }
 
     async mounted() {
         const differenceInMinutes =
@@ -37,7 +52,7 @@ export default class MapData extends Vue {
             container: "mapContainer",
             style: "mapbox://styles/mapbox/dark-v10",
             center: [41.015137, 28.97953],
-            zoom: 1,
+            zoom: 3,
         });
         this.map.on("load", () => {
             // Add a geojson point source.
@@ -188,6 +203,7 @@ export default class MapData extends Vue {
                 "waterway-label"
             );
         });
+        // this.map.panTo([-153.5558, 59.7455], { duration: 1000 });
     }
 }
 </script>
