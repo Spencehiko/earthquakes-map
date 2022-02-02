@@ -19,4 +19,7 @@ body {
 .mapboxgl-ctrl-icon {
     padding: 0 !important;
 }
+.mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+    display: none !important;
+}
 </style>

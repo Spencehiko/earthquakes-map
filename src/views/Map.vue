@@ -28,11 +28,13 @@ export default class Map extends Vue {
         z-index: 2;
         width: 250px;
         height: 100vh;
-        background: #191a1a;
+        background: linear-gradient(-90deg, #7890d2, #789fd2, #78b3d2, #78c5d2);
+        background-size: 200% 100%;
         color: #fff;
-        border-right: 3px solid #78b3d2;
+        border-right: 2px solid #fff;
         overflow-y: scroll;
         scrollbar-width: none;
+        animation: gradient 15s ease infinite;
         &::-webkit-scrollbar {
             display: none;
         }
@@ -43,6 +45,17 @@ export default class Map extends Vue {
         left: 250px;
         width: calc(100% - 250px);
         height: 100vh;
+    }
+    @keyframes gradient {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
     }
 }
 </style>

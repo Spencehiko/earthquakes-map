@@ -38,7 +38,7 @@ export default class MapData extends Vue {
             (60 * 1000);
         if (differenceInMinutes > 60) {
             await fetch(
-                "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&minmagnitude=2.5&limit=6000"
+                "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&minmagnitude=3&limit=5000"
             )
                 .then((response) => response.json())
                 .then((data) => (this.earthquakes = data));
