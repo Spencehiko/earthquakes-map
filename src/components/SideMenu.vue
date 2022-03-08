@@ -96,7 +96,7 @@ export default class SideMenu extends Vue {
         padding: 10px;
         .card {
             cursor: pointer;
-            border: 2px solid #fff;
+            border: 2px solid #7890d2;
             border-radius: 20px;
             padding: 5px;
             transition: all 0.5s;

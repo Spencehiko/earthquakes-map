@@ -1,6 +1,7 @@
 <template>
-    <div class="mapData">
+    <div class="mapData" :class="{ loading: loading }">
         <div class="mapContainer" id="mapContainer"></div>
+        <div class="loader"></div>
     </div>
 </template>
 
@@ -10,15 +11,15 @@ import Mapbox from "mapbox-gl";
 import { useStore } from "vuex";
 
 @Options({
-  // Define component options
-  watch: {
-    mapCenter: {
-      handler(newVal) {
-        this.map.panTo(newVal, { duration: 1000 });
-      },
-      deep: true
+    // Define component options
+    watch: {
+        mapCenter: {
+            handler(newVal) {
+                this.map.panTo(newVal, { duration: 1000 });
+            },
+            deep: true
+        }
     }
-  }
 })
 
 export default class MapData extends Vue {
@@ -26,19 +27,21 @@ export default class MapData extends Vue {
         "pk.eyJ1Ijoic3BlbmNlaGlrbyIsImEiOiJja3oycHNqbTYwMGEyMnpuMGg5M2Jpbmh3In0.eZG6gxWY-T2eEn_7CqEjNA";
     private map!: any;
     private earthquakes!: any;
+    public loading = false;
     private store = useStore();
     get mapCenter() {
         return this.store.getters.mapCenter;
     }
 
     async mounted() {
+        this.loading = true;
         const differenceInMinutes =
             (new Date().getTime() -
                 new Date(this.store.getters.lastUpdate).getTime()) /
             (60 * 1000);
         if (differenceInMinutes > 60) {
             await fetch(
-                "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&minmagnitude=3&limit=5000"
+                "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&minmagnitude=3&limit=6000"
             )
                 .then((response) => response.json())
                 .then((data) => (this.earthquakes = data));
@@ -205,20 +208,51 @@ export default class MapData extends Vue {
             );
         });
         // this.map.panTo([-153.5558, 59.7455], { duration: 1000 });
+        this.loading = false;
     }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.mapContainer {
-    height: 100vh;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    .mapboxgl-canvas {
+.mapData {
+    background: #333;
+    &.loading {
+        .loader {
+            display: block;
+            border: 16px solid #f3f3f3;
+            border-top: 5px solid #7898d2;
+            border-bottom: 5px solid #7898d2;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 50px;
+            width: 50px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    }
+    .mapContainer {
+        height: 100vh;
         width: 100%;
-        height: auto;
+        margin: 0;
+        padding: 0;
+        .mapboxgl-canvas {
+            width: 100%;
+            height: auto;
+        }
+    }
+    .loader {
+        display: hidden;
     }
 }
 </style>
