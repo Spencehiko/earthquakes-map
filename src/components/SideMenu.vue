@@ -119,12 +119,13 @@ export default class SideMenu extends Vue {
         padding: 5px;
         width: 30px;
         height: 60px;
-        position: absolute;
+        position: fixed;
         top: 50%;
-        right: 0;
+        left: 220px;
         transform: rotateY(180deg);
-        transition: all 1s;
+        transition: transform 1s;
         &.sidebar-small {
+            left: 90px;
             transform: rotateY(0);
         }
     }
