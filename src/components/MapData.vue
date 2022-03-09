@@ -57,7 +57,7 @@ export default class MapData extends Vue {
             center: [41.015137, 28.97953],
             zoom: 3,
         });
-        this.map.addControl(new Mapbox.NavigationControl(), 'bottom-left');
+        this.map.addControl(new Mapbox.NavigationControl(), 'bottom-right');
         this.map.on("load", () => {
             // Add a geojson point source.
             // Heatmap layers also work with a vector tile source.

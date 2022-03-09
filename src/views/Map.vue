@@ -1,6 +1,6 @@
 <template>
     <div class="mapDiv">
-        <SideMenu class="side-menu" />
+        <SideMenu />
         <MapData class="map-data" />
     </div>
 </template>
@@ -23,27 +23,8 @@ export default class Map extends Vue {
 </script>
 <style lang="less" scoped>
 .mapDiv {
-    .side-menu {
-        position: absolute;
-        z-index: 2;
-        width: 250px;
-        height: 100vh;
-        background: linear-gradient(-90deg, #7890d2, #789fd2, #78b3d2, #78c5d2);
-        background-size: 200% 100%;
-        color: #fff;
-        border-right: 2px solid #fff;
-        overflow-y: scroll;
-        scrollbar-width: none;
-        animation: gradient 15s ease infinite;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    }
     .map-data {
-        position: absolute;
-        top: 0;
-        left: 250px;
-        width: calc(100% - 250px);
+        width: 100%;
         height: 100vh;
     }
     @keyframes gradient {

@@ -22,4 +22,7 @@ body {
 .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
     display: none !important;
 }
+.mapboxgl-ctrl-logo {
+    display: none !important;
+}
 </style>
