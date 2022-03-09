@@ -108,7 +108,7 @@ export default class SideMenu extends Vue {
         display: none;
     }
     &.sidebar-small {
-        width: 160px;
+        width: 120px;
     }
     .sidebar-open {
         background: rgba(255, 255, 255, 0.7);
